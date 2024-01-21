@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&display=swap');
+
+/* * {
+    color: brown;
+}
+
+h1,
+a {
+    color: pink;
+}
+
+a{
+    color: aqua;
+} */
+
+
+/* h1 {
+    color: blue;
+} */
+
+
+/* p {
+    color: purple;
+}
+
+#diif {
+    color: aqua;
+}
+
+ul>li {
+    background-color: blueviolet;
+}
+
+ul>.last-li {
+    background-color: aquamarine;
+}
+
+ul p {
+    color: cadetblue;
+}
+
+div > h1 ~ .check {
+    background-color: black;
+    color: white;
+} */
+
+/* body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: blue;
+}
+
+.div .check {
+    color: pink !important;
+}
+
+#div .check {
+    color: red;
+    font-size: 100%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+} */
+
+
+/* body {
+    font-family: Arial, Verdana, sans-serif;
+    color: #665544;
+}
+
+h1 {
+    font-size: 100%;
+} */
+
+
+
+/* h1,
+h2 {
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+
+p.special {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 400;
+    font-style: oblique;
+    text-transform: capitalize;
+    text-decoration: blink;
+    text-align: start;
+    height: 100px;
+    vertical-align: middle;
+    padding: 10px;
+    text-indent: 10px;
+    text-shadow: -1px 1px 5px red;
+    background-color: #aaaaaa;
+    color: #ffffff;
+} */
+
+/* a:first-letter {
+    font-size: 50px;
+} */
+
+
+/* p::first-letter {
+    font-size: 50px;
+} */
+
+
+img {
+    width: 100px;
+    border: 1px solid black;
+    vertical-align: middle;
+}
+
+a:link {
+    color: deeppink;
+    text-decoration: none;
+}
+
+a:visited {
+    color: black;
+}
+
+a:hover {
+    color: deeppink;
+    text-decoration: underline;
+}
+
+a:active {
+    color: darkcyan;
+}
+
+p:active {
+    color: red;
+}
+
+
+a:focus,
+a:hover,
+a:visited {
+    color: yellow;
+}
+
+/* .box{
+    height: 600px;
+    width: 50%;
+    background-color: black;
+} */
+
+
+
+td.description {
+    /* min-width: 100px;
+    max-width: 400px; */
+    max-width: 400px;
+    text-align: left;
+    padding: 5px;
+    margin: 0px;
+}
+
+.box {
+    background-color: aqua;
+    color: black;
+    /* border: 1px solid green; */
+    border: 3px solid yellow;
+    border-left-color: pink;
+    border-left-width: 5px;
+    width: 250px;
+    /* border-bottom-width: 3px;
+    border-right-color: blue;
+    border-left-style: dotted; */
+    /* border-top: 1px solid green; */
+    /* border-right: 1px solid blue; */
+    /* border-top-width: 3px;
+    border-top-color: yellow;
+    border-top-style: solid; */
+    /* padding: 30px; */
+    /* padding-top: 10px; */
+    /* padding: 10px 20px 30px 40px; */
+    /* padding: 20px 40px; */
+    margin: 0 auto;
+    text-align: center;
+    /* margin: 20px; */
+    display: inline;
+}
+
+.box div {
+    height: 100px;
+    width: 100px;
+    background-color: pink;
+}
+
+.main {
+    height: 500px;
+    background-color: green;
+}
+
+.main .des {
+    display: inline;
+}
+
+#box {
+    background-color: aquamarine;
+    padding: 50px;
+}
+
+#box div {
+    background-color: red;
+    height: 100px;
+    width: 100px;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+#box #kchbbhi {
+    visibility: visible;
+    box-shadow: 5px 5px 5px 5px #777777;
+    /* border-radius: 5px; */
+    /* border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px; */
+    /* border-radius: 80px 50px; */
+    border-top-left-radius: 80px 50px;
+}
+
+ol {
+    list-style-image: url("../images/sqpurple.gif")
+}
+
+
+li {
+    margin: 10px;
+}
+
+ul.illuminations {
+    /* list-style-position: outside; */
+    list-style-position: inside;
+}
+
+ul.season {
+    list-style-position: inside;
+}
+
+
+table {
+    width: 600px;
+}
+
+th,
+td {
+    padding: 7px 10px 10px 10px;
+}
+
+th {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 90%;
+    border-bottom: 2px solid #111111;
+    border-top: 1px solid #999;
+    text-align: left;
+}
+
+tr.even {
+    background-color: #efefef;
+}
+
+tr:hover {
+    background-color: #c3e6e5;
+}
+
+.money {
+    text-align: right;
+}
+
+
+
+
+
+
+
+
+td {
+    background-color: #0088dd;
+    padding: 15px;
+    border: 2px solid #000000;
+}
+
+table.one {
+    border-spacing: 10px 15px;
+}
+
+table.two {
+    border-collapse: collapse;
+}
+
+
+table.two {
+    empty-cells: hide;
+}
+
+.bg {
+    height: 200px;
+    background-image: url("../images/SMIT\ LOGO.jpg");
+}
+
+.extra {
+    width: 250px;
+    background-color: aqua;
+    margin: 10px auto;
+    border: 10px solid black;
+}
