@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .div {
+        background-color: blue;
+        height: 200px;
+        width: 200px;
+      }
+      .show {
+        visibility: visible;
+      }
+      .hide {
+        visibility: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="JavaScript:void(0)" onClick="handleClick('nouman');">Click</a>
+    <img
+      src="1.jpg"
+      width="200px"
+      onMouseover="src='2.jpg'"
+      onMouseout="src='1.jpg'"
+    />
+
+    <input
+      type="text"
+      size="30"
+      onFocus="this.style.backgroundColor='yellow';"
+      onBlur="this.style.backgroundColor='white'"
+    />
+
+    <a href="index.html" onMouseover="this.style.color='green';">Home Page</a>
+
+    <br />
+    <br />
+    <div class="div" id="div">
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
+        provident soluta dolorum magni, sed doloribus odit accusamus dolorem
+        repellat eveniet quidem reiciendis nemo illum labore expedita eligendi,
+        nulla est perferendis.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
+        provident soluta dolorum magni, sed doloribus odit accusamus dolorem
+        repellat eveniet quidem reiciendis nemo illum labore expedita eligendi,
+        nulla est perferendis.
+      </p>
+    </div>
+    <div class="div" id="div2">
+        <p></p>
+    </div>
+    <br />
+
+    <button id="btn" onclick="toggleVisibility()">Hide</button>
+
+    <br />
+    <br />
+    <input type="text" id="email" />
+    <input type="button" value="Submit" onclick="checkAddress('email');" />
+
+    <p id="para">
+      Slow lorises are a group of several species of strepsirrhine primates
+      which make up the genus Nycticebus.
+      <a href="JavaScript:void(0)" onclick="readMore()">read more</a>
+    </p>
+
+    <!-- <form onSubmit="event.preventDefault(); checkAddress('email'); ">
+      Email:
+      <input type="text" id="email" />
+      <input type="submit" value="Submit" />
+    </form> -->
+    <script src="app.js"></script>
+  </body>
+</html>
