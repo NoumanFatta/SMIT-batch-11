@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div>
+      <div class="login-container">
+        <h2>Log in Your Account</h2>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input
+              type="email"
+              id="login-email"
+              name="email"
+              class="log-in-input"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              id="login-password"
+              name="password"
+              class="log-in-input"
+              required
+            />
+          </div>
+          <button type="submit" id="log-in">Login</button>
+        </form>
+        <p>Don't have an account? <a id="sign-up-link">Sign Up</a></p>
+      </div>
+      <div class="signup-container">
+        <h2>Create an Account</h2>
+        <form id="signup-form">
+          <div class="form-group">
+            <label for="email">Name:</label>
+            <input type="text" id="user-name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="signup-email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              id="signup-password"
+              name="password"
+              required
+            />
+          </div>
+          <button type="submit" id="sign-up">Sign Up</button>
+        </form>
+        <p>Already have an account? <a id="log-in-link">Login</a></p>
+      </div>
+      <div class="dashboard-container">
+        <h1 class="set-user-name" style="text-align: center"></h1>
+        <h2>Welcome to Your Banking System</h2>
+        <div class="balance">
+          <p>Your Current Balance:</p>
+          <p id="current-amount" style="font-weight: 600;color: darkgreen;"></p>
+        </div>
+        <div class="form-group">
+          <label for="deposit" style="margin-bottom: 10px"
+            >Deposit Amount:</label
+          >
+          <input type="number" id="deposit" name="deposit" required />
+        </div>
+        <button id="deposit-button">Deposit</button>
+        <div class="form-group" style="margin-top: 10px">
+          <label for="withdraw" style="margin-bottom: 10px"
+            >Withdraw Amount:</label
+          >
+          <input type="number" id="withdraw" name="withdraw" required />
+        </div>
+        <button id="withdraw-button">Withdraw</button>
+        <a class="logOut">Logout</a>
+      </div>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>
