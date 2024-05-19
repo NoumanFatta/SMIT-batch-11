@@ -41,7 +41,7 @@ loginForm.addEventListener("submit", function (ev) {
   console.log(users);
   console.log(userExists);
   if (!userExists) {
-    showToast("Error", "Invalid email or password");
+    showToast("Error", "Invalid email or password")
     return;
   }
   if (userExists.password !== userCreds.password) {
@@ -51,3 +51,4 @@ loginForm.addEventListener("submit", function (ev) {
   localStorage.setItem("isLoggedIn", "true");
   location.href = "index.html";
 });
+console.log("hello")
