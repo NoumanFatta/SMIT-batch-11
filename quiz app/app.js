@@ -1,4 +1,4 @@
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
   const currentUser = localStorage.getItem("currentUser");
   if (currentUser) {
     location.pathname = "/quiz.html";
@@ -13,6 +13,14 @@ const email = document.querySelector("#email");
 const pass = document.querySelector("#pass");
 const allUsers = JSON.parse(localStorage.getItem(USER_KEY)) || [];
 
+if (allUsers.length === 0) {
+  allUsers.push({
+    email: "admin@admin.com",
+    password: "123",
+  });
+  localStorage.setItem(USER_KEY, JSON.stringify(allUsers));
+}
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const foundUser = allUsers.find((user) => {
@@ -22,7 +30,7 @@ form.addEventListener("submit", (e) => {
     alert("Inavlid email or password");
     return;
   }
-  localStorage.setItem("currentUser", JSON.stringify(foundUser.email));
+  localStorage.setItem("currentUser", foundUser.email);
   location.pathname = "/quiz.html";
 });
 
