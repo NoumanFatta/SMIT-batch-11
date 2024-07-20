@@ -48,5 +48,19 @@ const {
 console.log(fiName, age, familyDetails, siblings);
 
 const arr = [2, 4, 6, 8, 10];
-const [, , a,] = arr;
-console.log(a)
+const [, , a] = arr;
+console.log(a);
+
+const sumFun = (a = 0, b = 0) => {
+  return a + b;
+};
+
+
+const greetUser = (userName = "Test") => {
+    console.log(`Hello ${userName}`)
+}
+
+const resultSum = sumFun(undefined, undefined);
+
+console.log(resultSum);
+greetUser("John")
