@@ -28,14 +28,14 @@
 const getPaani = (cb) => {
   console.log("Getting paani");
   setTimeout(() => {
-    cb("💧");
+    cb(null, "💧");
   }, 2000);
 };
 
 const mixPaaniWithPatti = (paani, cb) => {
   console.log("Mixing patti and paani");
   setTimeout(() => {
-    cb(`${paani} + 🍀`);
+    cb("Error mixing paani", `${paani} + 🍀`);
   }, 2000);
 };
 const mixDoodh = (mixture, cb) => {
@@ -50,14 +50,20 @@ const boilChai = (ingredients, cb) => {
   }, 2000);
 };
 const makeChai = () => {
-  getPaani((paani) => {
-    mixPaaniWithPatti(paani, (mixture) => {
-      mixDoodh(mixture, (doodh) => {
-        boilChai(doodh, (chai) => {
-            console.log(chai)
-        });
+  getPaani((err, paani) => {
+    if (!err) {
+      mixPaaniWithPatti(paani, (e, mixture) => {
+        if (!e) {
+          mixDoodh(mixture, (doodh) => {
+            boilChai(doodh, (chai) => {
+              console.log(chai);
+            });
+          });
+        } else {
+          console.log(e);
+        }
       });
-    });
+    }
   });
 };
 
