@@ -20,14 +20,15 @@ const Board = () => {
     squaresCopy[i] = xIsNext ? "X" : "O";
     setSquares(squaresCopy);
     setXIsNext(!xIsNext);
-    if (calculateWinner(squaresCopy)) {
+    const result = calculateWinner(squaresCopy)
+    if (result) {
       setEndGame({
         gameover: true,
-        winner: { name: calculateWinner(squaresCopy) },
+        winner: { name: result },
       });
     }
     if (squaresCopy.every((sq) => sq !== null)) {
-      setEndGame({ gameover: true, winner: { name: "" } });
+      setEndGame((prev) => ({ ...prev, gameover: true }));
     }
   };
   const calculateWinner = (squares) => {
