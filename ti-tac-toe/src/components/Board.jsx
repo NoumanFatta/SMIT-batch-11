@@ -11,6 +11,7 @@ const Board = () => {
     },
   });
   const handleClick = (i) => {
+    console.log(i);
     if (squares[i]) return;
     if (endGame.winner.name || endGame.gameover) {
       return;
@@ -29,7 +30,7 @@ const Board = () => {
       setEndGame({ gameover: true, winner: { name: "" } });
     }
   };
-  function calculateWinner(squares) {
+  const calculateWinner = (squares) => {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -51,28 +52,31 @@ const Board = () => {
       }
     }
     return null;
-  }
-  
+  };
+  const sqrArray = [0, 1, 2];
   return (
     <>
       <p>Your Turn: {xIsNext ? "X" : "O"} </p>
       {endGame.winner.name && <h1> Winner is: {endGame.winner.name}</h1>}
       {!endGame.winner.name && endGame.gameover && <h1>Game is Over! </h1>}
-      <div className="board-row">
-        <Square value={squares[0]} handleClick={() => handleClick(0)} />
-        <Square value={squares[1]} handleClick={() => handleClick(1)} />
-        <Square value={squares[2]} handleClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[3]} handleClick={() => handleClick(3)} />
-        <Square value={squares[4]} handleClick={() => handleClick(4)} />
-        <Square value={squares[5]} handleClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[6]} handleClick={() => handleClick(6)} />
-        <Square value={squares[7]} handleClick={() => handleClick(7)} />
-        <Square value={squares[8]} handleClick={() => handleClick(8)} />
-      </div>
+      {sqrArray.map((vl, i) => {
+        return (
+          <div key={i} className="board-row">
+            <Square
+              value={squares[i * 3]}
+              handleClick={() => handleClick(i * 3)}
+            />
+            <Square
+              value={squares[i * 3 + 1]}
+              handleClick={() => handleClick(i * 3 + 1)}
+            />
+            <Square
+              value={squares[i * 3 + 2]}
+              handleClick={() => handleClick(i * 3 + 2)}
+            />
+          </div>
+        );
+      })}
     </>
   );
 };
