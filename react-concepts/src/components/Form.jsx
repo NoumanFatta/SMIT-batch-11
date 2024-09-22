@@ -1,8 +1,7 @@
 import React, { useRef, useState } from "react";
 
 const Form = () => {
-  const emailRef = useRef(null);
-  const myRefs= useRef([]);
+  const formFieldsRef = useRef([]);
   const [formDetails, setFormDetails] = useState({
     email: "test@test.com",
     password: "123",
@@ -11,7 +10,7 @@ const Form = () => {
 
   const handleSumbit = (e) => {
     e.preventDefault();
-    console.log(emailRef.current.value);
+    console.log(formFieldsRef.current);
     console.log(formDetails);
   };
 
@@ -27,7 +26,7 @@ const Form = () => {
   return (
     <form onSubmit={handleSumbit}>
       <input
-        ref={emailRef}
+        ref={(el) => (formFieldsRef.current["email"] = el)}
         type="text"
         name="email"
         // value={formDetails.email}
@@ -36,8 +35,9 @@ const Form = () => {
       <input
         type={isPwdVisible ? "text" : "password"}
         name="password"
-        value={formDetails.password}
-        onChange={(e) => onFormChange(e)}
+        ref={(el) => (formFieldsRef.current["password"] = el)}
+        // value={formDetails.password}
+        // onChange={(e) => onFormChange(e)}
       />
       <button onClick={togglePwdVis}>
         {isPwdVisible ? "Hide" : "Show"} Password
