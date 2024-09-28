@@ -12,11 +12,19 @@ const UseRef = () => {
   const stopInterval = () => {
     clearInterval(interval.current);
   };
+  const divRef = useRef();
   return (
-    <div>
+    <div ref={divRef}>
       <p>{counter}</p>
       <button onClick={startInterval}>Start Interval</button>
       <button onClick={stopInterval}>Stop Interval</button>
+      <button
+        onClick={() => {
+          divRef.current.style.backgroundColor = "red";
+        }}
+      >
+        Change BG
+      </button>
     </div>
   );
 };
