@@ -1,88 +1,48 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import { Button, styled } from "@mui/material";
-import "./App.css";
-import Grid from "./components/Grid";
-const ACTION_STRINGS = {
-  toggleGrid: "TOGGLE_GRID",
-  changeColor: "CHANGE_COLOR",
-  changeName: "CHANGE_NAME",
-};
-const StyledDiv = styled("div")(({ theme, customColor }) => ({
-  background: customColor,
-}));
-const reducer = (state, action) => {
-  if (action.name === ACTION_STRINGS.toggleGrid) {
-    return { ...state, grid: !state.grid };
-  } else if (action.name === ACTION_STRINGS.changeColor) {
-    return { ...state, color: action.payload };
-  } else if (action.name === ACTION_STRINGS.changeName) {
-    const initialState = { ...state };
-    initialState.details.fName = "Alex";
-    return initialState;
-    return { ...state, details: { ...state.details, fName: "Alex" } };
-  }
-  return state;
-};
-const App = () => {
-  const [state, dispatch] = useReducer(reducer, {
-    details: {
-      fName: "John",
-      lName: "Doe",
-    },
-    grid: true,
-    color: "red",
-  });
-  // console.log({ state });
-  const divRef = useRef();
+import { createTheme, ThemeProvider } from "@mui/material";
+import MainApp from "./components/MainApp";
+import { orange } from "@mui/material/colors";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Root from "./routes/Root";
+import { NotFound } from "./routes/NotFound";
+import Contact from "./routes/Contact";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: "contacts/:contactId",
+        element: <Contact />,
+        children: [
+          {
+            index: true,
+            // path: "main",
+            element: <h1>Hello asdaddaad</h1>,
+          },
+        ],
+      },
+    ],
+  },
+]);
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "rgb(25, 27, 89)",
+    },
+    secondary: {
+      main: orange[100],
+    },
+  },
+});
+
+const App = () => {
   return (
-    <>
-      <p>{JSON.stringify(state.details)}</p>
-      <button
-        onClick={() => {
-          dispatch({ name: ACTION_STRINGS.changeName });
-        }}
-      >
-        Change First Name
-      </button>
-      <StyledDiv ref={divRef} customColor={state.color}>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </StyledDiv>
-      <Button
-        variant="contained"
-        color="error"
-        size="medium"
-        onClick={() => {
-          dispatch({ name: ACTION_STRINGS.changeColor, payload: "green" });
-        }}
-      >
-        Change Color
-      </Button>
-      <Button
-        variant="contained"
-        color="error"
-        size="medium"
-        onClick={() => {
-          dispatch({ name: ACTION_STRINGS.toggleGrid });
-        }}
-      >
-        Toggle Grid Visibility
-      </Button>
-      {state.grid && <Grid />}
-    </>
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   );
 };
 

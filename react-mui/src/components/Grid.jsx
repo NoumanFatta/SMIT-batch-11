@@ -1,5 +1,5 @@
 import { Grid2, Paper, styled } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -11,7 +11,11 @@ const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "#1A2027",
   }),
 }));
-const Grid = () => {
+const Grid = ({ getChildState }) => {
+  const [state, setState] = useState("initial");
+  useEffect(() => {
+    getChildState(state);
+  }, []);
   // useEffect(() => {
   //   console.log("Component mounted");
   //   const interval = setInterval(() => {
