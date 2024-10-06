@@ -1,15 +1,32 @@
-import { Form, Outlet } from "react-router-dom";
+import { Form, Outlet, useLoaderData } from "react-router-dom";
 import Favorite from "../components/Favorite";
 
+const getContact = async (id) => {
+  return new Promise((res) => {
+    setTimeout(() => {
+      const contacts = JSON.parse(
+        localStorage.getItem("contacts") || JSON.stringify([])
+      );
+      res(contacts.find((e) => e.id.toString() === id) || {});
+    }, 1000);
+  });
+};
+
+export const loader = async (a) => {
+  const contact = await getContact(a.params.contactId);
+  return { contact };
+};
+
 const Contact = () => {
-  const contact = {
-    first: "Your",
-    last: "Name",
-    avatar: "https://robohash.org/you.png?size=200x200",
-    twitter: "your_handle",
-    notes: "Some notes",
-    favorite: true,
-  };
+  const { contact } = useLoaderData();
+  // const contact = {
+  //   first: "Your",
+  //   last: "Name",
+  //   avatar: "https://robohash.org/you.png?size=200x200",
+  //   twitter: "your_handle",
+  //   notes: "Some notes",
+  //   favorite: true,
+  // };
 
   return (
     <div id="contact">

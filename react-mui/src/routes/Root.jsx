@@ -1,6 +1,53 @@
-import { Link, Outlet } from "react-router-dom";
+import { Form, Link, Outlet, useLoaderData, useNavigate, useNavigation } from "react-router-dom";
+const getContacts = () => {
+  return new Promise((res) => {
+    const contacts = JSON.parse(
+      localStorage.getItem("contacts") || JSON.stringify([])
+    );
+    setTimeout(() => {
+      res(contacts);
+    }, 5000);
+  });
+};
+
+const createContact = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const contacts = JSON.parse(
+        localStorage.getItem("contacts") || JSON.stringify([])
+      );
+      contacts.push({ id: Date.now(), first: "John", last: "Doe", favorite: true });
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+      resolve(contacts);
+    }, 1000);
+  });
+};
+
+export const loader = async () => {
+  const contacts = await getContacts();
+  return { contacts };
+};
+
+export const action = async () => {
+  const contact = await createContact();
+  return { contact };
+};
+
+const routeLinks = [
+  {
+    id: 1,
+    label: "1",
+  },
+  {
+    id: 2,
+    label: "2",
+  },
+];
 
 const Root = () => {
+  const { contacts } = useLoaderData();
+  const navigation = useNavigation()
+  console.log(navigation)
   return (
     <>
       <div id="sidebar">
@@ -17,21 +64,33 @@ const Root = () => {
             <div id="search-spinner" aria-hidden hidden={true} />
             <div className="sr-only" aria-live="polite"></div>
           </form>
-          <form method="post">
+          <Form method="post">
             <button type="submit">New</button>
-          </form>
+          </Form>
         </div>
         <nav>
-          <ul>
-            <li>
-              {/* <a href={`/contacts/1`}>Your Name</a> */}
-              <Link to="/contacts/1" >1</Link>
-            </li>
-            <li>
-              <Link to="/contacts/2" >2</Link>
-              {/* <a href={`/contacts/2`}>Your Friend</a> */}
-            </li>
-          </ul>
+          {contacts.length ? (
+            <ul>
+              {contacts.map((contact) => (
+                <li key={contact.id}>
+                  <Link to={`contacts/${contact.id}`}>
+                    {contact.first || contact.last ? (
+                      <>
+                        {contact.first} {contact.last}
+                      </>
+                    ) : (
+                      <i>No Name</i>
+                    )}{" "}
+                    {contact.favorite && <span>★</span>}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>
+              <i>No contacts</i>
+            </p>
+          )}
         </nav>
       </div>
       <div id="detail">

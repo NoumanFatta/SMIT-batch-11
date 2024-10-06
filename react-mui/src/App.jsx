@@ -2,19 +2,22 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import MainApp from "./components/MainApp";
 import { orange } from "@mui/material/colors";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Root from "./routes/Root";
+import Root, { action, loader } from "./routes/Root";
 import { NotFound } from "./routes/NotFound";
-import Contact from "./routes/Contact";
+import Contact, { loader as contactLoader } from "./routes/Contact";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <NotFound />,
+    loader: loader,
+    action: action,
     children: [
       {
         path: "contacts/:contactId",
         element: <Contact />,
+        loader: contactLoader,
         children: [
           {
             index: true,
