@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../config/firebase-config";
+import { auth, db } from "../config/firebase-config";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignupForm = () => {
   const loggedinUser = useContext(AuthContext);
@@ -31,7 +32,7 @@ const SignupForm = () => {
         formData.email,
         formData.password
       );
-      navigate("/home");
+      await setDoc(doc(db, "users", userCredential.user.uid), formData);
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;

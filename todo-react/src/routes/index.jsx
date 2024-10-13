@@ -20,7 +20,7 @@ export const router = createBrowserRouter(
         <Route path="/login" element={<LoginForm />} />
       </Route>
       <Route element={<ProtectedRoutes />}>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/contact/:id" element={<ContactID />} />

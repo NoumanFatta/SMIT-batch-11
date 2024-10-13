@@ -3,7 +3,8 @@ import { createContext, useEffect, useState } from "react";
 import { auth } from "../config/firebase-config";
 
 const initialState = {
-  mode: "light",
+  loggedinUser: null,
+  userLoading: true,
 };
 export const AuthContext = createContext(initialState);
 const AuthProvider = ({ children }) => {
