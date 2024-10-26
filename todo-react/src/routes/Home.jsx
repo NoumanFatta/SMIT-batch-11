@@ -19,6 +19,10 @@ import {
 } from "firebase/firestore";
 import { AuthContext } from "../context/AuthContext";
 import FormModal from "../components/FormModal";
+import A from "./A";
+import B from "./B";
+import DummyProvider from "../context/DummyContext";
+import TodoComp from "../components/TodoComp";
 const Home = () => {
   const { loggedinUser } = useContext(AuthContext);
   const [todos, setTodos] = useState([]);
@@ -32,7 +36,6 @@ const Home = () => {
     }
   };
 
-  console.log(todos, ">>>>>");
   useEffect(() => {
     (async () => {
       try {
@@ -77,6 +80,12 @@ const Home = () => {
       <Box marginTop={5}>
         <Button onClick={() => setOpen(!open)}>Add Todo</Button>
       </Box>
+      <DummyProvider>
+        <A />
+        <B />
+      </DummyProvider>
+      <TodoComp />
+
     </>
   );
 };

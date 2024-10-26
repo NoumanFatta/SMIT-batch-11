@@ -10,7 +10,7 @@ const LoginChecker = () => {
   ) : !loggedinUser ? (
     <Outlet />
   ) : (
-    <Navigate to="/home" />
+    <Navigate to="/" />
   );
 };
 

@@ -31,7 +31,6 @@ const LoginForm = () => {
         formData.email,
         formData.password
       );
-      navigate("/home");
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;

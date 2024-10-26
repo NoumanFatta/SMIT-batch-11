@@ -2,7 +2,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../config/firebase-config";
 
-const initialState = {
+export const initialState = {
   loggedinUser: null,
   userLoading: true,
 };
