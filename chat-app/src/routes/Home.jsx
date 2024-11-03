@@ -11,25 +11,34 @@ import {
   TextField,
   IconButton,
   Tooltip,
+  Button,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ChatIcon from "@mui/icons-material/Chat";
 import {
   addDoc,
+  arrayUnion,
   collection,
+  doc,
+  FieldValue,
   getDocs,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../pages/confic";
 import { Authcontext } from "../context/Authcontext";
+import { Delete } from "@mui/icons-material";
+import firebase from "firebase/compat/app";
 
 const Home = () => {
   const { loginuser } = useContext(Authcontext);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [editable, setEditable] = useState(null);
+  const editId = useRef();
   const usersRef = useRef([]);
   useEffect(() => {
     (async () => {
@@ -51,27 +60,61 @@ const Home = () => {
               {
                 ...change.doc.data(),
                 user: usersRef.current[change.doc.data().sentBy],
+                id: change.doc.id,
               },
             ]);
+          } else if (change.type === "modified") {
+            setMessages((prev) => {
+              const allMessages = [...prev];
+              const msgIndex = allMessages.findIndex(
+                (m) => m.id === change.doc.id
+              );
+              allMessages[msgIndex] = {
+                ...change.doc.data(),
+                id: change.doc.id,
+                user: usersRef.current[change.doc.data().sentBy],
+              };
+              return allMessages;
+            });
           }
         });
       });
-
-      // const q = query(collection(db, "messages"), orderBy("sentAt", "asc"));
-      // const querySnapshot = await getDocs(q);
-      // querySnapshot.forEach((doc) => {
-      //   const singleMsg = doc.data();
-      //   setMessages((prev) => [...prev, singleMsg]);
-      //   // setMessages(allMessages);
-      // });
     })();
   }, []);
-  console.log(">>>", messages);
   const sendMessage = async () => {
-    const docRef = await addDoc(collection(db, "messages"), {
+    await addDoc(collection(db, "messages"), {
       text: message,
       sentBy: loginuser.uid,
       sentAt: serverTimestamp(),
+      edited: false,
+    });
+    setMessage("");
+  };
+  const handleEditable = (index, id) => {
+    if (editable?.[index]) {
+      editId.current = null;
+      setEditable(null);
+      setMessage("");
+      return;
+    }
+    editId.current = id;
+    setEditable({ [index]: true });
+    setMessage(messages[index].text);
+  };
+  const editMessage = async () => {
+    const docRef = doc(db, "messages", editId.current);
+    await updateDoc(docRef, {
+      text: message,
+      edited: true,
+    });
+    editId.current = null;
+    setEditable(null);
+    setMessage("");
+  };
+  const deleteForMe = async (id) => {
+    const docRef = doc(db, "messages", id);
+    await updateDoc(docRef, {
+      deleteForMe: arrayUnion(loginuser.uid),
     });
   };
   return (
@@ -112,45 +155,95 @@ const Home = () => {
         <List sx={{ padding: 0 }}>
           {messages.map((data, index) => {
             return (
-              <React.Fragment key={index}>
+              <React.Fragment key={data.id}>
                 {data.sentBy !== loginuser.uid ? (
-                  <ListItem sx={{ justifyContent: "flex-start" }}>
-                    <Box
-                      sx={{
-                        maxWidth: "75%",
-                        bgcolor: "#e0e0e0",
-                        color: "black",
-                        borderRadius: "16px 16px 16px 0",
-                        padding: "10px 15px",
-                        boxShadow: 1,
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      <Tooltip
-                        title={`${data.user.firstName} ${data.user.lastname}`}
-                      >
-                        <Typography variant="body1">{data.text}</Typography>
-                      </Tooltip>
-                    </Box>
-                  </ListItem>
+                  <>
+                    {!data?.deleteForMe?.includes(loginuser.uid) && (
+                      <ListItem sx={{ justifyContent: "flex-start" }}>
+                        <Box
+                          sx={{
+                            maxWidth: "75%",
+                            bgcolor: "#e0e0e0",
+                            color: "black",
+                            borderRadius: "16px 16px 16px 0",
+                            padding: "10px 15px",
+                            boxShadow: 1,
+                            wordWrap: "break-word",
+                          }}
+                        >
+                          <Tooltip
+                            title={`${data.user.firstName} ${data.user.lastname}`}
+                          >
+                            <Typography variant="body1">
+                              {data.edited && (
+                                <span
+                                  style={{
+                                    position: "absolute",
+                                    height: "8px",
+                                    width: "8px",
+                                    borderRadius: "50%",
+                                    top: "0px",
+                                    left: "22px",
+                                    background: "red",
+                                  }}
+                                ></span>
+                              )}
+                              {data.text}
+                            </Typography>
+                          </Tooltip>
+                          <Button onClick={() => deleteForMe(data.id)}>
+                            <Delete />
+                          </Button>
+                        </Box>
+                      </ListItem>
+                    )}
+                  </>
                 ) : (
-                  <ListItem sx={{ justifyContent: "flex-end" }}>
-                    <Box
-                      sx={{
-                        maxWidth: "75%",
-                        bgcolor: "green",
-                        color: "white",
-                        borderRadius: "16px 16px 0 16px",
-                        padding: "10px 15px",
-                        boxShadow: 1,
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      <Tooltip title="You">
-                        <Typography variant="body1">{data.text}</Typography>
-                      </Tooltip>
-                    </Box>
-                  </ListItem>
+                  <>
+                    {!data?.deleteForMe?.includes(loginuser.uid) && (
+                      <ListItem sx={{ justifyContent: "flex-end" }}>
+                        <Box
+                          sx={{
+                            maxWidth: "75%",
+                            bgcolor: "green",
+                            color: "white",
+                            borderRadius: "16px 16px 0 16px",
+                            padding: "10px 15px",
+                            boxShadow: 1,
+                            wordWrap: "break-word",
+                          }}
+                        >
+                          <Tooltip title="You">
+                            <Typography position="relative" variant="body1">
+                              {data.edited && (
+                                <span
+                                  style={{
+                                    position: "absolute",
+                                    height: "8px",
+                                    width: "8px",
+                                    borderRadius: "50%",
+                                    top: "-13px",
+                                    left: "-16px",
+                                    background: "red",
+                                  }}
+                                ></span>
+                              )}
+
+                              {data.text}
+                            </Typography>
+                          </Tooltip>
+                          <button
+                            onClick={() => handleEditable(index, data.id)}
+                          >
+                            {editable?.[index] ? "Cancel" : "Edit"}
+                          </button>
+                          <Button onClick={() => deleteForMe(data.id)}>
+                            <Delete />
+                          </Button>
+                        </Box>
+                      </ListItem>
+                    )}
+                  </>
                 )}
               </React.Fragment>
             );
@@ -182,7 +275,7 @@ const Home = () => {
           onChange={(e) => setMessage(e.target.value)}
         />
         <IconButton
-          onClick={sendMessage}
+          onClick={editable ? editMessage : sendMessage}
           disabled={!message}
           color="primary"
           sx={{
