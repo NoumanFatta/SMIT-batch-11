@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 
 const ContactID = () => {
   const params = useParams();
-  console.log(params.id);
+  console.log(params);
   return <div>ContactID</div>;
 };
 

@@ -12,6 +12,8 @@ import {
   IconButton,
   Tooltip,
   Button,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ChatIcon from "@mui/icons-material/Chat";
@@ -30,14 +32,15 @@ import {
 } from "firebase/firestore";
 import { db } from "../pages/confic";
 import { Authcontext } from "../context/Authcontext";
-import { Delete } from "@mui/icons-material";
-import firebase from "firebase/compat/app";
+import { Delete, MoreVert } from "@mui/icons-material";
 
 const Home = () => {
   const { loginuser } = useContext(Authcontext);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [editable, setEditable] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const editId = useRef();
   const usersRef = useRef([]);
   useEffect(() => {
@@ -117,6 +120,13 @@ const Home = () => {
       deleteForMe: arrayUnion(loginuser.uid),
     });
   };
+  const deleteForAll = async (id) => {
+    const docRef = doc(db, "messages", id);
+    await updateDoc(docRef, {
+      deleteForAll: true,
+      text: "",
+    });
+  };
   return (
     <Box
       sx={{
@@ -188,7 +198,9 @@ const Home = () => {
                                   }}
                                 ></span>
                               )}
-                              {data.text}
+                              {data?.deleteForAll
+                                ? "This message has been deleted"
+                                : data.text}
                             </Typography>
                           </Tooltip>
                           <Button onClick={() => deleteForMe(data.id)}>
@@ -228,18 +240,59 @@ const Home = () => {
                                   }}
                                 ></span>
                               )}
-
-                              {data.text}
+                              {data?.deleteForAll
+                                ? "This message has been deleted"
+                                : data.text}
                             </Typography>
                           </Tooltip>
-                          <button
-                            onClick={() => handleEditable(index, data.id)}
-                          >
-                            {editable?.[index] ? "Cancel" : "Edit"}
-                          </button>
-                          <Button onClick={() => deleteForMe(data.id)}>
-                            <Delete />
-                          </Button>
+                          {!data?.deleteForAll && (
+                            <>
+                              <Button
+                                variant="contained"
+                                id="demo-positioned-button"
+                                aria-controls={
+                                  open ? "demo-positioned-menu" : undefined
+                                }
+                                aria-haspopup="true"
+                                aria-expanded={open ? "true" : undefined}
+                                onClick={(event) => {
+                                  setAnchorEl(event.currentTarget);
+                                }}
+                              >
+                                <MoreVert />
+                              </Button>
+
+                              <Menu
+                                id="demo-positioned-menu"
+                                aria-labelledby="demo-positioned-button"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={() => {
+                                  setAnchorEl(null);
+                                }}
+                                anchorOrigin={{
+                                  vertical: "top",
+                                  horizontal: "left",
+                                }}
+                                transformOrigin={{
+                                  vertical: "top",
+                                  horizontal: "left",
+                                }}
+                              >
+                                <MenuItem
+                                  onClick={() => handleEditable(index, data.id)}
+                                >
+                                  {editable?.[index] ? "Cancel" : "Edit"}
+                                </MenuItem>
+                                <MenuItem onClick={() => deleteForMe(data.id)}>
+                                  Delete for me
+                                </MenuItem>
+                                <MenuItem onClick={() => deleteForAll(data.id)}>
+                                  Delete for All
+                                </MenuItem>
+                              </Menu>
+                            </>
+                          )}
                         </Box>
                       </ListItem>
                     )}
