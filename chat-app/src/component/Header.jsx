@@ -1,16 +1,15 @@
-import React, { useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
-import { Authcontext } from "../context/Authcontext";
 import { signOut } from "firebase/auth";
 import { auth } from "../pages/confic";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-  const { loginuser } = useContext(Authcontext);
+  const { loginuser } = useSelector((state) => state.auth);
   return (
     <AppBar
       position="fixed"
@@ -34,9 +33,14 @@ const Header = () => {
           <Button color="inherit" component={Link} to="/contact">
             Contact
           </Button>
-          <Button variant="contained" onClick={async() => {
-            await signOut(auth)
-          }} >Logout</Button>
+          <Button
+            variant="contained"
+            onClick={async () => {
+              await signOut(auth);
+            }}
+          >
+            Logout
+          </Button>
           {!loginuser && (
             <>
               <Button color="inherit" component={Link} to="/signup">

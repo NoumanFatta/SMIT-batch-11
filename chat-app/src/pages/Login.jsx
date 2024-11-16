@@ -13,9 +13,7 @@ const LOGIN = () => {
   const loginuser = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password).then((user) => {
-        console.log(user);
-      });
+      await signInWithEmailAndPassword(auth, email, password)
       navigate("/");
     } catch (e) {
       console.log(e);

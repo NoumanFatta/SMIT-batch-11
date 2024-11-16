@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Paper,
@@ -31,11 +31,11 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../pages/confic";
-import { Authcontext } from "../context/Authcontext";
 import { Delete, MoreVert } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  const { loginuser } = useContext(Authcontext);
+  const { loginuser } = useSelector((state) => state.auth);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [editable, setEditable] = useState(null);
